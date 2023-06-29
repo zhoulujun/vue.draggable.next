@@ -22,13 +22,13 @@ declare const draggableComponent: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
-    move: {
-        type: FunctionConstructor;
-        default: any;
-    };
     handle: {
         type: StringConstructor;
         default: string;
+    };
+    move: {
+        type: FunctionConstructor;
+        default: any;
     };
     componentData: {
         type: ObjectConstructor;
@@ -61,6 +61,7 @@ declare const draggableComponent: import("vue").DefineComponent<{
     onDragEnd(): void;
 }, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, string[], string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<{
     move: Function;
+    handle: string;
     clone: Function;
     componentData: Record<string, any>;
     tag: string;
@@ -70,6 +71,7 @@ declare const draggableComponent: import("vue").DefineComponent<{
     itemKey?: string | Function;
 }>, {
     move: Function;
+    handle: string;
     clone: Function;
     componentData: Record<string, any>;
     tag: string;
