@@ -1,4 +1,19 @@
 export default draggableComponent;
+interface MyComponentEvents {
+    change: Function;
+    start: Function;
+    add: Function;
+    remove: Function;
+    update: Function;
+    end: Function;
+    choose: Function;
+    unchoose: Function;
+    sort: Function;
+    filter: Function;
+    clone: Function;
+    move: Function;
+    'update:modelValue': Function;
+}
 declare const draggableComponent: import("vue").DefineComponent<{
     list: {
         type: ArrayConstructor;
@@ -35,7 +50,7 @@ declare const draggableComponent: import("vue").DefineComponent<{
         required: boolean;
         default: any;
     };
-}, any, {
+}, MyComponentEvents, {
     error: boolean;
 }, {
     realList(): any;
