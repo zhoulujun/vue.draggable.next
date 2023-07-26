@@ -4724,13 +4724,16 @@ var props = {
       return original;
     }
   },
+  beforeAdd: {
+    type: Function
+  },
   tag: {
     type: String,
-    default: "div"
+    default: 'div'
   },
   handle: {
     type: String,
-    default: ""
+    default: ''
   },
   move: {
     type: Function,
@@ -4942,7 +4945,14 @@ var draggableComponent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["d
       }
 
       removeNode(evt.item);
-      var newIndex = this.getVmIndexFromDomIndex(evt.newIndex); // @ts-ignore
+      var newIndex = this.getVmIndexFromDomIndex(evt.newIndex);
+
+      if (typeof this.beforeAdd === 'function') {
+        if (!this.beforeAdd(element, newIndex)) {
+          return;
+        }
+      } // @ts-ignore
+
 
       this.spliceList(newIndex, 0, element);
       var added = {

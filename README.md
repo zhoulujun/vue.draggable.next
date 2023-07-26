@@ -262,6 +262,35 @@ Default: `(original) => { return original;}`<br>
 Function called on the source component to clone element when clone option is true. The unique argument is the viewModel element to be cloned and the returned value is its cloned version.<br>
 By default vue.draggable reuses the viewModel element, so you have to use this hook if you want to clone or deep clone it.
 
+
+#### beforeAdd
+
+sourceCode
+```javascript
+ {
+  methods: {
+    onDragAdd(evt){
+      const element = evt.item._underlying_vm_;
+      if (element === undefined) {
+        return;
+      }
+      removeNode(evt.item);
+
+      const newIndex = this.getVmIndexFromDomIndex(evt.newIndex);
+      if (typeof this.beforeAdd === 'function') {
+        if (!this.beforeAdd(element, newIndex)) {
+          return;
+        }
+      }
+      // @ts-ignore
+      this.spliceList(newIndex, 0, element);
+      const added = { element, newIndex };
+      this.emitChanges({ added });
+    },
+  }
+}
+```
+
 #### move
 Type: `Function`<br>
 Required: `false`<br>

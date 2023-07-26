@@ -2,13 +2,13 @@ import Sortable from "sortablejs";
 import { insertNodeAt, removeNode } from "./util/htmlHelper";
 import { console } from "./util/console";
 import {
-  getComponentAttributes,
   createSortableOption,
+  getComponentAttributes,
   getValidSortableEntries
 } from "./core/componentBuilderHelper";
 import { computeComponentStructure } from "./core/renderHelper";
 import { events } from "./core/sortableEvents";
-import { h, defineComponent, nextTick } from "vue";
+import { defineComponent, h, nextTick } from "vue";
 
 function emit(evtName, evtData) {
   nextTick(() => this.$emit(evtName.toLowerCase(), evtData));
@@ -52,6 +52,9 @@ const props = {
     default: original => {
       return original;
     }
+  },
+  beforeAdd: {
+    type: Function
   },
   tag: {
     type: String,
@@ -247,7 +250,13 @@ const draggableComponent = defineComponent({
         return;
       }
       removeNode(evt.item);
+
       const newIndex = this.getVmIndexFromDomIndex(evt.newIndex);
+      if (typeof this.beforeAdd === "function") {
+        if (!this.beforeAdd(element, newIndex)) {
+          return;
+        }
+      }
       // @ts-ignore
       this.spliceList(newIndex, 0, element);
       const added = { element, newIndex };
